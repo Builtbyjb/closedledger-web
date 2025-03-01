@@ -29,11 +29,11 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <>
-      <h2 className="text-3xl mb-8 text-white leading-[1.3]">
+    <div className="text-center">
+      <h2 className="text-4xl text-white leading-[1.3] mb-8 font-bold">
         Why you will love ClosedLedger
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {benefits.map((benefit, index) => (
           <div key={index} className="">
             <div className="flex items-center text-white">
@@ -44,6 +44,6 @@ export default function Benefits() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

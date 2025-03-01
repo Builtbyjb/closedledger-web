@@ -1,12 +1,6 @@
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import {
-  CheckCircle,
-  ArrowRight,
-  Mail,
-  Instagram,
-  Linkedin,
-} from "lucide-react";
+import { Mail, Instagram, Linkedin } from "lucide-react";
 import type { MetaFunction } from "@remix-run/node";
 // import Pricing from "~/components/Pricing";
 import Features from "./Features";
@@ -25,35 +19,35 @@ export default function IndexPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="pt-8 pb-2 px-4 mb-8">
-        <div className="">
-          <div className="md:w-1/2 mb-8 md:mb-0">
-            <h1 className="text-white text-4xl md:text-5xl font-bold mb-4 leading-[1.3]">
-              Keep track of your business health.
-            </h1>
+      <section className="mt-24 pb-2 mb-24">
+        <div className="text-center">
+          <h1 className="text-white text-4xl md:text-5xl lg:text-5xl font-bold mb-4 leading-[1.3]">
+            Keep track of your business health.
+          </h1>
+          <div className="lg:w-1/2 mx-auto">
             <p className="text-gray-400 mb-6">
               We help business owners like you track your business health
               efficiently through automated and accurate bookkeeping and
               AI-powered financial analysis—all while giving you full control of
               your financial data.
             </p>
-            <Button
-              size="lg"
-              className="bg-accent text-white hover:bg-accent font-poppins"
-            >
-              Join the waitlist
-            </Button>
           </div>
+          <Button
+            size="lg"
+            className="bg-accent text-white hover:bg-accent font-poppins"
+          >
+            Join the waitlist
+          </Button>
         </div>
       </section>
       {/* <hr /> */}
       {/* Features Section */}
-      <section id="features" className="px-4 mb-16">
+      <section id="features" className="mb-24">
         <Features />
       </section>
 
       {/* Benefits section */}
-      <section id="benefits" className="px-4 mb-16">
+      <section id="benefits" className="mb-24">
         <Benefits />
       </section>
 
@@ -68,9 +62,9 @@ export default function IndexPage() {
         </section> */}
 
       {/* CTA Section */}
-      <section className="px-4 mb-16">
-        <h2 className="text-3xl font-bold mb-4 text-white">
-          Ready to run a health business?
+      <section className="mb-24 text-center">
+        <h2 className="text-4xl font-bold mb-4 text-white">
+          Ready to run a healthy business?
         </h2>
         <p className="text-gray-400 mb-4">
           Join the waitlist to get early access.
@@ -84,12 +78,12 @@ export default function IndexPage() {
         {/* <Cta /> */}
       </section>
 
-      <footer className="text-white px-4 py-8">
+      <footer className="text-white py-8">
         <div className="font-poppins">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
+            {/* <div>
               <span className="text-2xl font-outfit">ClosedLedger</span>
-            </div>
+            </div> */}
             {/* <div>
               <h3 className="text-lg font-semibold mb-4">Navigation</h3>
               <ul className="space-y-2">

@@ -17,7 +17,7 @@ export default function GuestNavBar() {
 
   return (
     <nav>
-      <div className="bg-secondary text-white p-4">
+      <div className="bg-secondary text-white">
         <div className="flex justify-between">
           <div className="flex">
             <a href="/" className="flex-shrink-0 flex items-center">
