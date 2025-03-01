@@ -2,10 +2,10 @@ import JournalTable from "~/components/journal/journalTable";
 import type { MetaFunction } from "@remix-run/node";
 import FilterControls from "~/components/journal/filterControls";
 import { Suspense } from "react";
-import Loading from "~/components/Loading";
+import Loading from "~/components/PageLoad";
 import { useLoaderData, Link, useNavigate } from "@remix-run/react";
 import api from "~/lib/api";
-import { JournalEntry } from "~/lib/constants";
+import { JournalEntry } from "~/lib/types";
 import { AxiosError } from "axios";
 
 export const meta: MetaFunction = () => {

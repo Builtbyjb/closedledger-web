@@ -1,12 +1,12 @@
 import { Outlet } from "@remix-run/react";
-import { AppLayout } from "~/components/layouts/AppLayout";
+import { AuthLayout } from "~/components/layouts/AuthLayout";
 
 export default function Layout() {
   return (
     <>
-      <AppLayout>
+      <AuthLayout>
         <Outlet />
-      </AppLayout>
+      </AuthLayout>
     </>
   );
 }

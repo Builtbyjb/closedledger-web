@@ -1,6 +1,3 @@
-import LandingPage from "~/components/LandingPage";
-import { AppLayout } from "~/components/layouts/AppLayout";
-import { AuthLayout } from "~/components/layouts/AuthLayout";
 import type { MetaFunction } from "@remix-run/node";
 import { useState, useRef, useEffect } from "react";
 import { useFetcher } from "@remix-run/react";
@@ -15,7 +12,7 @@ import api from "~/lib/api";
 export const meta: MetaFunction = () => {
   return [
     { title: "Home" },
-    { name: "description", content: "Welcome to TrueLedger" },
+    { name: "description", content: "Welcome to ClosedLedger" },
   ];
 };
 
@@ -63,7 +60,7 @@ export async function action({
   }
 }
 
-export function IndexPage() {
+export default function HomePage() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [transactionInputError, setTransactionInputError] = useState<
@@ -199,22 +196,5 @@ export function IndexPage() {
         </fetcher.Form>
       </div>
     </div>
-  );
-}
-
-export default function Index() {
-  const isAuth = false;
-  return (
-    <>
-      {isAuth ? (
-        <AppLayout>
-          <IndexPage />
-        </AppLayout>
-      ) : (
-        <AuthLayout>
-          <LandingPage />
-        </AuthLayout>
-      )}
-    </>
   );
 }

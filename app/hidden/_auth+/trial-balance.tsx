@@ -1,9 +1,9 @@
 import { useLoaderData } from "@remix-run/react";
-import { TrialBalanceTable } from "~/components/TrialBalanceTable";
-import { TrialBalanceEntry } from "~/lib/constants";
+import { TrialBalanceTable } from "~/hidden/TrialBalanceTable";
+import { TrialBalanceEntry } from "~/lib/types";
 import api from "~/lib/api";
 import { Suspense, useEffect, useState } from "react";
-import Loading from "~/components/Loading";
+import Loading from "~/components/PageLoad";
 
 type LoaderResponse = Response & {
   data?: TrialBalanceEntry[];

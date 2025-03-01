@@ -4,13 +4,13 @@ import type {
   MetaFunction,
 } from "@remix-run/node";
 import { Suspense, useEffect, useState } from "react";
-import Loading from "~/components/Loading";
+import Loading from "~/components/PageLoad";
 import { useLoaderData, useSearchParams, useFetcher } from "@remix-run/react";
 import api from "~/lib/api";
 import { AxiosError } from "axios";
-import SelectAccountNames from "~/components/tAccounts/SelectAccountNames";
-import DisplayTAccount from "~/components/tAccounts/DisplayTAccount";
-import type { TAccountEntry } from "~/lib/constants";
+import SelectAccountNames from "~/hidden/tAccounts/SelectAccountNames";
+import DisplayTAccount from "~/hidden/tAccounts/DisplayTAccount";
+import type { TAccountEntry } from "~/lib/types";
 
 export const meta: MetaFunction = () => {
   return [

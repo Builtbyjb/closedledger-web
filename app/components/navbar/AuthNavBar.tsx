@@ -176,7 +176,7 @@ const data = {
   // ],
 };
 
-export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AuthNavBar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { isMobile } = useSidebar();
 
   return (
