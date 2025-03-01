@@ -1,6 +1,7 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { flatRoutes } from "remix-flat-routes";
 
 declare module "@remix-run/node" {
   interface Future {
@@ -11,6 +12,17 @@ declare module "@remix-run/node" {
 export default defineConfig({
   plugins: [
     remix({
+      routes(defineRoutes) {
+        return flatRoutes("routes", defineRoutes, {
+          ignoredRouteFiles: ["**/.*"], // Ignore dot files (like .DS_Store)
+          //appDir: 'app',
+          //routeDir: 'routes',
+          //basePath: '/',
+          //paramPrefixChar: '$',
+          //nestedDirectoryChar: '+',
+          //routeRegex: /((\${nestedDirectoryChar}[\/\\][^\/\\:?*]+)|[\/\\]((index|route|layout|page)|(_[^\/\\:?*]+)|([^\/\\:?*]+\.route)))\.(ts|tsx|js|jsx|md|mdx)$$/,
+        });
+      },
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
@@ -22,8 +34,8 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   server: {
-    // host: '192.168.2.182',
-    host: '0.0.0.0',
+    // host: "192.168.2.182",
+    host: "0.0.0.0",
     // port: 8001,
     port: 5173,
   },

@@ -1,1 +1,1 @@
-export const LOGO = "Company XYZ";
+export const LOGO = "ClosedLedger";
