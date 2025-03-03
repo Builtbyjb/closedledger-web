@@ -4,20 +4,23 @@ const features = [
   {
     title: "Full control of financial data",
     icon: Database,
-    description:
-      "No risk of losing access to critical data if you decide to switch software providers or hire an in-house accounting team.",
+    description: `No risk of losing access to critical data if you decide to 
+    switch software providers or hire an in-house accounting team.`,
   },
   {
     title: "Automated bookkeeping",
     icon: BookText,
-    description:
-      "We monitor your business transactions and automatically create journal entries, generate financial statements, process invoices, and send you email reminders when accounts payable and accounts receivable are due. ",
+    description: `We monitor your business transactions and automatically 
+    create journal entries, generate financial statements, process invoices, 
+    and send you email reminders when accounts payable and accounts 
+    receivable are due.`,
   },
   {
     title: "AI powered financial analysis",
     icon: ChartLine,
-    description:
-      "We use Artificial Intelligence (AI) to analyze your financial data and provide actionable insights on how and where improvements can be made to enhance your business health.",
+    description: `We use Artificial Intelligence (AI) to analyze your 
+    financial data and provide actionable insights on how and where 
+    improvements can be made to enhance your business health.`,
   },
 ];
 

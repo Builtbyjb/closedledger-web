@@ -10,8 +10,14 @@ import Cta from "./Cta";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Home" },
-    { name: "description", content: "Welcome to ClosedLedger" },
+    { title: "ThinkLedger" },
+    {
+      name: "description",
+      content: `Welcome to ThinkLedger.We empower business owners like you 
+      to effortlessly track your business’s financial health with automated, 
+      accurate bookkeeping and AI-driven financial analysis while keeping 
+      you in full control of your financial data.`,
+    },
   ];
 };
 
@@ -26,10 +32,10 @@ export default function IndexPage() {
           </h1>
           <div className="lg:w-1/2 mx-auto">
             <p className="text-gray-400 mb-6">
-              We help business owners like you track your business health
-              efficiently through automated and accurate bookkeeping and
-              AI-powered financial analysis—all while giving you full control of
-              your financial data.
+              We empower business owners like you to effortlessly track your
+              business’s financial health with automated, accurate bookkeeping
+              and AI-driven financial analysis while keeping you in full control
+              of your financial data.
             </p>
           </div>
           <Button
@@ -64,10 +70,10 @@ export default function IndexPage() {
       {/* CTA Section */}
       <section className="mb-24 text-center">
         <h2 className="text-4xl font-bold mb-4 text-white">
-          Ready to run a healthy business?
+          Running a health business has never been easier.
         </h2>
         <p className="text-gray-400 mb-4">
-          Join the waitlist to get early access.
+          Join the waitlist to get early access today!.
         </p>
         <Button
           size="lg"
