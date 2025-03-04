@@ -36,7 +36,7 @@ export default function Benefits() {
   return (
     <div className="text-center">
       <h2 className="text-4xl text-white leading-[1.3] mb-8 font-bold">
-        Why you will love ClosedLedger
+        Why you will love ThinkLedger
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {benefits.map((benefit, index) => (
@@ -45,7 +45,7 @@ export default function Benefits() {
               <benefit.icon className="w-8 h-8 mb-4 me-4" />
               <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
             </div>
-            <p className="text-gray-400">{benefit.description}</p>
+            <p className="text-white">{benefit.description}</p>
           </div>
         ))}
       </div>

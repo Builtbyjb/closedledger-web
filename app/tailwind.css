@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    color: #ffffff;
+    font-family: "poppins", sans-serif;
+  }
   h1 {
     font-family: "Outfit", sans-serif;
     font-optical-sizing: auto;

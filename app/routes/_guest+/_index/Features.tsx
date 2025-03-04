@@ -37,7 +37,7 @@ export default function Features() {
               <feature.icon className="w-8 h-8 mb-4 me-4" />
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
             </div>
-            <p className="text-gray-400">{feature.description}</p>
+            <p className="text-white">{feature.description}</p>
           </div>
         ))}
       </div>
