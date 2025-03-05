@@ -1,97 +1,45 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useFetcher } from "@remix-run/react";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import * as z from "zod";
+import { FetcherWithComponents, Link, useFetcher } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-// import api from "~/lib/api";
-import { validateData } from "~/lib/utils";
 import { X } from "lucide-react";
+import { WaitlistFormActionResponse } from "~/lib/types";
+import Client from "@sendgrid/client";
 
-type ActionInput = z.TypeOf<typeof formSchema>;
-
-type Errors = {
-  firstname: string;
-  lastname: string;
-  email: string;
+type Props = {
+  formRef: React.RefObject<HTMLFormElement>;
+  handleSubmit: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  fetch: FetcherWithComponents<WaitlistFormActionResponse>;
+  shouldClose: boolean;
 };
 
-type ActionResponse = Response & {
-  errors?: Errors;
-  error?: string;
-  success?: string;
-};
-
-const formSchema = z.object({
-  firstname: z.string().min(2, {
-    message: "First name must be at least 2 characters long.",
-  }),
-  lastname: z.string().min(2, {
-    message: "Last name must be at least 2 characters long.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-});
-
-export async function action({
-  request,
-}: ActionFunctionArgs): Promise<ActionResponse | undefined> {
-  const formData = await request.formData();
-  const jsonData = Object.fromEntries(formData);
-
-  try {
-    const response = await fetch("http://127.0.0.1:3000/auth/v0/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(jsonData),
-    });
-    if (response.status === 200) {
-      return Response.json({ success: "User registered" });
-    } else {
-      return Response.json({ error: "User registration failed" });
-    }
-  } catch (error) {
-    return Response.json({ error: "Server error, the issue is being fixed" });
-  }
-}
-
-export default function JoinWaitlist() {
-  const [errorMessage, setErrorMessage] = useState("");
-  const fetcher = useFetcher<ActionResponse>();
-  const formRef = useRef<HTMLFormElement>(null);
+export default function JoinWaitlist({
+  formRef,
+  handleSubmit,
+  fetch,
+  shouldClose,
+}: Props) {
   const [show, setShow] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (shouldClose) {
+      setShow(false);
+    }
+  }, [shouldClose]);
 
   if (!show) {
     return (
       <Button
         size="lg"
         onClick={() => setShow(true)}
-        className="bg-accent text-white hover:bg-accent font-poppins"
+        className="bg-accent text-white hover:bg-accent font-poppins hover:bg-blue-900"
       >
         Join waitlist
       </Button>
     );
   }
-
-  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (formRef.current) {
-      const formData = new FormData(formRef.current);
-      const { errors } = await validateData<ActionInput>({
-        formData,
-        formSchema,
-      });
-
-      if (errors === null) {
-        fetcher.submit(formData, { method: "POST" });
-      }
-    }
-  };
 
   return (
     <div
@@ -111,47 +59,50 @@ export default function JoinWaitlist() {
         <p className="text-white mb-4">
           Be the first to know when we launch. Get early access to our product.
         </p>
-        <fetcher.Form ref={formRef} className="space-y-4">
+        <fetch.Form ref={formRef} className="space-y-4">
           <div>
             <Label htmlFor="firstname" className="text-white font-poppins">
               First name
+              <span className="text-red-600">*</span>
             </Label>
             <Input
-              className="font-poppins"
+              className="font-poppins text-gray-900"
               placeholder="Enter your first name"
               name="firstname"
               type="text"
             />
             <p className="text-sm text-red-500 dark:text-red-400">
-              {fetcher.data?.errors?.firstname}
+              {fetch.data?.errors?.firstname}
             </p>
           </div>
           <div>
             <Label htmlFor="lastname" className="text-white font-poppins">
               Last name
+              <span className="text-red-600">*</span>
             </Label>
             <Input
               placeholder="Enter your last name"
               name="lastname"
               type="text"
-              className="font-poppins"
+              className="font-poppins text-gray-900"
             />
             <p className="text-sm text-red-500 dark:text-red-400">
-              {fetcher.data?.errors?.lastname}
+              {fetch.data?.errors?.lastname}
             </p>
           </div>
           <div>
             <Label htmlFor="email" className="text-white font-poppins">
               Email
+              <span className="text-red-600">*</span>
             </Label>
             <Input
               placeholder="Enter your email"
-              className="font-poppins"
+              className="font-poppins text-gray-900"
               type="email"
               name="email"
             />
             <p className="text-sm text-red-500 dark:text-red-400">
-              {fetcher.data?.errors?.email}
+              {fetch.data?.errors?.email}
             </p>
           </div>
           <p className="text-sm">
@@ -164,12 +115,14 @@ export default function JoinWaitlist() {
           </p>
           <Button
             type="submit"
-            className="w-full bg-accent text-white font-poppins"
-            onClick={handleSubmit}
+            className="w-full bg-accent text-white font-poppins hover:bg-blue-900"
+            onClick={(event) => {
+              handleSubmit(event);
+            }}
           >
             Join waitlist
           </Button>
-        </fetcher.Form>
+        </fetch.Form>
       </div>
     </div>
   );

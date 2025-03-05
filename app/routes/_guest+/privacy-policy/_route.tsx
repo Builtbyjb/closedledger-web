@@ -184,8 +184,11 @@ export default function PrivacyPolicy() {
             </p>
             <p>
               You can instruct your browser to refuse all cookies or to indicate
-              when a cookie is being sent. However, if you do not accept
-              cookies, you may not be able to use some portions of our service.
+              when a cookie is being sent. You can also edit your cookie
+              settings by clicking on the Cookie Preferences button at the
+              bottom of the page.
+              {/* However, if you do not accept
+              cookies, you may not be able to use some portions of our service. */}
             </p>
             <p>Examples of Cookies we use:</p>
             <ul className="list-disc pl-6 space-y-2">
