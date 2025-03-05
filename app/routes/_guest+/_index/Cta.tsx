@@ -63,7 +63,7 @@ export default function JoinWaitlist({
           <div>
             <Label htmlFor="firstname" className="text-white font-poppins">
               First name
-              <span className="text-red-600">*</span>
+              <span className="text-red-500">*</span>
             </Label>
             <Input
               className="font-poppins text-gray-900"
@@ -71,14 +71,14 @@ export default function JoinWaitlist({
               name="firstname"
               type="text"
             />
-            <p className="text-sm text-red-500 dark:text-red-400">
+            <p className="text-sm text-red-500">
               {fetch.data?.errors?.firstname}
             </p>
           </div>
           <div>
             <Label htmlFor="lastname" className="text-white font-poppins">
               Last name
-              <span className="text-red-600">*</span>
+              <span className="text-red-500">*</span>
             </Label>
             <Input
               placeholder="Enter your last name"
@@ -86,14 +86,14 @@ export default function JoinWaitlist({
               type="text"
               className="font-poppins text-gray-900"
             />
-            <p className="text-sm text-red-500 dark:text-red-400">
+            <p className="text-sm text-red-500">
               {fetch.data?.errors?.lastname}
             </p>
           </div>
           <div>
             <Label htmlFor="email" className="text-white font-poppins">
               Email
-              <span className="text-red-600">*</span>
+              <span className="text-red-500">*</span>
             </Label>
             <Input
               placeholder="Enter your email"
@@ -101,9 +101,7 @@ export default function JoinWaitlist({
               type="email"
               name="email"
             />
-            <p className="text-sm text-red-500 dark:text-red-400">
-              {fetch.data?.errors?.email}
-            </p>
+            <p className="text-sm text-red-500">{fetch.data?.errors?.email}</p>
           </div>
           <p className="text-sm">
             Your privacy matters to us, and we will never share or sell your
