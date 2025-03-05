@@ -66,6 +66,9 @@ const cookies = [
 	//   },
 ];
 
+// const domain = "localhost";
+const domain = ".thinkledger.app";
+
 export default function CookieConsentBanner() {
 	const [isVisible, setIsVisible] = useState(false);
 	const [activeTab, setActiveTab] = useState("simple");
@@ -105,10 +108,8 @@ export default function CookieConsentBanner() {
 
 		// Removes google analytics cookies
 		if (!consentData.analytics) {
-			document.cookie =
-				"_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-			document.cookie =
-				"_ga_ZHYE58GHZM=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+			document.cookie = `_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;domain=${domain}`;
+			document.cookie = `_ga_ZHYE58GHZM=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;domain=${domain}`;
 		}
 
 		const analyticsCookieAccess = consentData.analytics
@@ -288,7 +289,7 @@ export default function CookieConsentBanner() {
 															</span>
 														</Button>
 													</DialogTrigger>
-													<DialogContent>
+													<DialogContent className="bg-primary">
 														<DialogHeader>
 															<DialogTitle>
 																{cookie.title}
