@@ -59,4 +59,13 @@ export function getEnv() {
   return isBrowser() ? window.ENV : process.env;
 }
 
-export function validateENV() {}
+// Validate environment variables
+export function validateENV(envSchema: ZodSchema, envVars: any) {
+  try {
+    const _ = envSchema.parse(envVars);
+    return { isValidEnv: true, error: null };
+  } catch (error) {
+    const err = error as ZodError;
+    return { isValidEnv: false, error: err };
+  }
+}

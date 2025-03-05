@@ -6,4 +6,9 @@ interface Window {
     SENDGRID_API_KEY: string;
     SENDGRID_LIST_ID: string;
   };
+  gtag: (
+    command: string,
+    event: string,
+    params?: Record<string, string | boolean>
+  ) => void;
 }
