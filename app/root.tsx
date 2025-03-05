@@ -9,6 +9,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 import "./tailwind.css";
 import CookieConsentBanner from "./components/CookieConsent";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -68,10 +69,11 @@ export default function App() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <GoogleAnalytics />
       </head>
       <body className="bg-primary">
         <Outlet />
-        {/* <CookieConsentBanner /> */}
+        <CookieConsentBanner />
         {/* Send env variables to the server */}
         <script
           dangerouslySetInnerHTML={{

@@ -4,7 +4,7 @@ import Benefits from "./Benefits";
 import Cta from "./Cta";
 import { Link, useFetcher } from "@remix-run/react";
 import { useState, useRef, useEffect } from "react";
-import { validateData, getEnv } from "~/lib/utils";
+import { validateData, getEnv, validateENV } from "~/lib/utils";
 import * as z from "zod";
 import { AxiosError } from "axios";
 import api from "~/lib/api";
@@ -28,9 +28,11 @@ export const meta: MetaFunction = () => {
 
 const env = getEnv();
 
-const sendGridAPIKey = env.SENDGRID_API_KEY;
-const sendGridURL = env.SENDGRID_URL;
-const sendGridListID = env.SENDGRID_LIST_ID;
+const envVars: any = {
+  sendGridAPIKey: env.SENDGRID_API_KEY,
+  sendGridURL: env.SENDGRID_URL,
+  sendGridListID: env.SENDGRID_LIST_ID,
+};
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -42,6 +44,12 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
+});
+
+const envSchema = z.object({
+  sendGridURL: z.string().url(),
+  sendGridListID: z.string().nonempty(),
+  sendGridAPIKey: z.string().nonempty(),
 });
 
 type ActionInput = z.TypeOf<typeof formSchema>;
@@ -60,9 +68,11 @@ export async function action({
     return Response.json({ errors: errors });
   }
 
-  if (sendGridListID && sendGridAPIKey && sendGridURL) {
+  const { isValidEnv, error } = validateENV(envSchema, envVars);
+
+  if (isValidEnv) {
     const data = {
-      list_ids: [sendGridListID],
+      list_ids: [envVars.sendGridListID],
       contacts: [
         {
           first_name: formData.get("firstname"),
@@ -76,9 +86,9 @@ export async function action({
     // return Response.json({ success: true });
 
     try {
-      const response = await api.put(sendGridURL, data, {
+      const response = await api.put(envVars.sendGridURL, data, {
         headers: {
-          Authorization: `Bearer ${sendGridAPIKey}`,
+          Authorization: `Bearer ${envVars.sendGridAPIKey}`,
           "Content-Type": `application/json`,
         },
       });
@@ -94,7 +104,7 @@ export async function action({
       return Response.json({ success: false });
     }
   } else {
-    console.log("Could not view environment variables");
+    console.log(error);
     return Response.json({ success: false });
   }
 }
@@ -107,6 +117,9 @@ export default function IndexPage() {
   useEffect(() => {
     if (fetcher.data) {
       if (fetcher.data.success === true) {
+        alert(
+          "You've been added to the waitlist! A welcome email has been sent to you. If you don't see it in your inbox, please check your spam folder. Thank you!"
+        );
         setShouldClose(true);
       } else if (fetcher.data.success === false) {
         alert(

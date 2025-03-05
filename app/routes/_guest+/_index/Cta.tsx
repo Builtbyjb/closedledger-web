@@ -41,9 +41,7 @@ export default function JoinWaitlist({
   }
 
   return (
-    <div
-      className={`w-[100%] h-[100%] bg-primary bg-opacity-[0.8] fixed top-0 left-0 flex items-center justify-center`}
-    >
+    <div className="w-[100%] h-[100%] bg-primary bg-opacity-[0.8] fixed top-0 left-0 flex items-center justify-center">
       <div className="mx-auto w-[30rem] bg-primary p-8 text-left">
         <div className="flex w-full justify-between mb-8 items-center">
           <h3 className="text-white text-xl">Join our waitlist</h3>
