@@ -21,7 +21,7 @@ export default function GuestNavBar() {
         <div className="flex justify-between">
           <div className="flex">
             <a href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-outfit">ClosedLedger</span>
+              <span className="text-xl font-outfit">ThinkLedger</span>
             </a>
             {/* <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               {navItems.map((item) => (

@@ -2,22 +2,20 @@ import axios from "axios";
 // import { logOut } from "./utils";
 // import { refreshToken } from "./utils";
 
-const api = axios.create({
-	baseURL: import.meta.env.VITE_SERVER_URL,
-});
+const api = axios.create({});
 
 // Request interceptor
 api.interceptors.request.use(
-	(config) => {
-		// const token = localStorage.getItem("ACCESS_TOKEN");
-		// if (token) {
-		// 	config.headers.Authorization = `Bearer ${token}`;
-		// }
-		return config;
-	},
-	(error) => {
-		return Promise.reject(error);
-	}
+  (config) => {
+    // const token = localStorage.getItem("ACCESS_TOKEN");
+    // if (token) {
+    // 	config.headers.Authorization = `Bearer ${token}`;
+    // }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 // Response interceptor

@@ -1,44 +1,144 @@
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Mail, Instagram, Linkedin } from "lucide-react";
 import type { MetaFunction } from "@remix-run/node";
-// import Pricing from "~/components/Pricing";
 import Features from "./Features";
 import Benefits from "./Benefits";
 import Cta from "./Cta";
+import { Link, useFetcher } from "@remix-run/react";
+import { useState, useRef, useEffect } from "react";
+import { validateData } from "~/lib/utils";
+import * as z from "zod";
+import { AxiosError } from "axios";
+import api from "~/lib/api";
+import type { ActionFunctionArgs } from "@remix-run/node";
+import { WaitlistFormActionResponse } from "~/lib/types";
 // import Testimonials from "./Testimonials";
+// import Pricing from "~/components/Pricing";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Home" },
-    { name: "description", content: "Welcome to ClosedLedger" },
+    { title: "ThinkLedger" },
+    {
+      name: "description",
+      content: `Welcome to ThinkLedger. We help business owners like you 
+      to effortlessly track your business’s financial health with automated, 
+      accurate bookkeeping and AI-driven financial analysis while keeping 
+      you in full control of your financial data.`,
+    },
   ];
 };
 
+const sendGridAPIKey = import.meta.env.VITE_SENDGRID_API_KEY;
+const sendGridURL = import.meta.env.VITE_SENDGRID_URL;
+const sendGridListID = import.meta.env.VITE_SENDGRID_LIST_ID;
+
+const formSchema = z.object({
+  firstname: z.string().min(2, {
+    message: "First name must be at least 2 characters long.",
+  }),
+  lastname: z.string().min(2, {
+    message: "Last name must be at least 2 characters long.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+});
+
+type ActionInput = z.TypeOf<typeof formSchema>;
+
+export async function action({
+  request,
+}: ActionFunctionArgs): Promise<WaitlistFormActionResponse | undefined> {
+  const formData = await request.formData();
+
+  const data = {
+    list_ids: [sendGridListID],
+    contacts: [
+      {
+        first_name: formData.get("firstname"),
+        last_name: formData.get("lastname"),
+        email: formData.get("email"),
+      },
+    ],
+  };
+
+  console.log(sendGridURL);
+
+  // console.log(data);
+
+  try {
+    const response = await api.put(sendGridURL, data, {
+      headers: {
+        Authorization: `Bearer ${sendGridAPIKey}`,
+        "Content-Type": `application/json`,
+      },
+    });
+    console.log(response.data);
+    if (response.status === 202) {
+      return Response.json({ success: true });
+    } else {
+      return Response.json({ success: false });
+    }
+  } catch (error) {
+    const err = error as AxiosError;
+    console.log(err.response?.data);
+    return Response.json({ success: false });
+  }
+}
+
 export default function IndexPage() {
+  const fetcher = useFetcher<WaitlistFormActionResponse>();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [shouldClose, setShouldClose] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (fetcher.data) {
+      if (fetcher.data.success === true) {
+        setShouldClose(true);
+      } else {
+        alert(
+          "Something went wrong while adding you to the waitlist. Please try again."
+        );
+      }
+      console.log(fetcher.data);
+    }
+  }, [fetcher.data]);
+
+  const waitlistHandleSubmit = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    if (formRef.current) {
+      const formData = new FormData(formRef.current);
+      const { errors } = await validateData<ActionInput>({
+        formData,
+        formSchema,
+      });
+
+      if (errors === null) {
+        fetcher.submit(formData, { method: "PUT" });
+      }
+    }
+  };
   return (
     <div>
       {/* Hero Section */}
-      <section className="mt-24 pb-2 mb-24">
-        <div className="text-center">
-          <h1 className="text-white text-4xl md:text-5xl lg:text-5xl font-bold mb-4 leading-[1.3]">
-            Keep track of your business health.
-          </h1>
-          <div className="lg:w-1/2 mx-auto">
-            <p className="text-gray-400 mb-6">
-              We help business owners like you track your business health
-              efficiently through automated and accurate bookkeeping and
-              AI-powered financial analysis—all while giving you full control of
-              your financial data.
-            </p>
-          </div>
-          <Button
-            size="lg"
-            className="bg-accent text-white hover:bg-accent font-poppins"
-          >
-            Join the waitlist
-          </Button>
-        </div>
+      <section className="pb-2 mb-24 text-center">
+        <h1 className="text-white text-5xl md:text-5xl lg:text-5xl font-bold mb-4 leading-[1.3]">
+          Keep track of your business's financial health.
+        </h1>
+        <p className="text-white mb-8">
+          We help business owners like you to effortlessly track your business’s
+          financial health with automated, accurate bookkeeping and AI-driven
+          financial analysis while keeping you in full control of your financial
+          data.
+        </p>
+
+        <p className="text-white mb-4">Join the waitlist to get early access</p>
+        <Cta
+          formRef={formRef}
+          handleSubmit={waitlistHandleSubmit}
+          fetch={fetcher}
+          shouldClose={shouldClose}
+        />
       </section>
       {/* <hr /> */}
       {/* Features Section */}
@@ -62,122 +162,18 @@ export default function IndexPage() {
         </section> */}
 
       {/* CTA Section */}
-      <section className="mb-24 text-center">
-        <h2 className="text-4xl font-bold mb-4 text-white">
-          Ready to run a healthy business?
+      <section className="text-center">
+        <h2 className="text-4xl font-bold mb-4">
+          Running a health business has never been easier.
         </h2>
-        <p className="text-gray-400 mb-4">
-          Join the waitlist to get early access.
-        </p>
-        <Button
-          size="lg"
-          className="bg-accent text-white hover:bg-accent font-poppins"
-        >
-          Join the waitlist
-        </Button>
-        {/* <Cta /> */}
+        <p className="mb-4">Join the waitlist to get early access today!.</p>
+        <Cta
+          formRef={formRef}
+          handleSubmit={waitlistHandleSubmit}
+          fetch={fetcher}
+          shouldClose={shouldClose}
+        />
       </section>
-
-      <footer className="text-white py-8">
-        <div className="font-poppins">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {/* <div>
-              <span className="text-2xl font-outfit">ClosedLedger</span>
-            </div> */}
-            {/* <div>
-              <h3 className="text-lg font-semibold mb-4">Navigation</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Benefits
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Integrations
-                  </a>
-                </li>
-              </ul>
-            </div> */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="flex hover:text-gray-300">
-                    <Mail className="me-2" />
-                    Email
-                  </a>
-                </li>
-                {/* <li>
-                  <a href="#" className="hover:text-gray-300">
-                    X
-                  </a>
-                </li> */}
-                <li>
-                  <a href="#" className="flex hover:text-gray-300">
-                    <Instagram className="me-2" />
-                    Instagram
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="flex hover:text-gray-300">
-                    <Linkedin className="me-2" />
-                    LinkedIn
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* <div>
-              <h3 className="text-lg font-semibold mb-4">Resources</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Support
-                  </a>
-                </li>
-              </ul>
-            </div> */}
-            {/* <div>
-              <h3 className="text-lg font-semibold mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Cookie Policy
-                  </a>
-                </li>
-              </ul>
-            </div> */}
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-            <p>&copy; 2025 ClosedLedger. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
