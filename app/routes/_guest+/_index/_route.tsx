@@ -4,7 +4,7 @@ import Benefits from "./Benefits";
 import Cta from "./Cta";
 import { Link, useFetcher } from "@remix-run/react";
 import { useState, useRef, useEffect } from "react";
-import { validateData } from "~/lib/utils";
+import { validateData, getEnv } from "~/lib/utils";
 import * as z from "zod";
 import { AxiosError } from "axios";
 import api from "~/lib/api";
@@ -26,9 +26,11 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-const sendGridAPIKey = import.meta.env.VITE_SENDGRID_API_KEY;
-const sendGridURL = import.meta.env.VITE_SENDGRID_URL;
-const sendGridListID = import.meta.env.VITE_SENDGRID_LIST_ID;
+const env = getEnv();
+
+const sendGridAPIKey = env.SENDGRID_API_KEY;
+const sendGridURL = env.SENDGRID_URL;
+const sendGridListID = env.SENDGRID_LIST_ID;
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -58,33 +60,41 @@ export async function action({
     return Response.json({ errors: errors });
   }
 
-  const data = {
-    list_ids: [sendGridListID],
-    contacts: [
-      {
-        first_name: formData.get("firstname"),
-        last_name: formData.get("lastname"),
-        email: formData.get("email"),
-      },
-    ],
-  };
+  if (sendGridListID && sendGridAPIKey && sendGridURL) {
+    const data = {
+      list_ids: [sendGridListID],
+      contacts: [
+        {
+          first_name: formData.get("firstname"),
+          last_name: formData.get("lastname"),
+          email: formData.get("email"),
+        },
+      ],
+    };
 
-  try {
-    const response = await api.put(sendGridURL, data, {
-      headers: {
-        Authorization: `Bearer ${sendGridAPIKey}`,
-        "Content-Type": `application/json`,
-      },
-    });
-    console.log(response.data);
-    if (response.status === 202) {
-      return Response.json({ success: true });
-    } else {
+    // console.log(data);
+    // return Response.json({ success: true });
+
+    try {
+      const response = await api.put(sendGridURL, data, {
+        headers: {
+          Authorization: `Bearer ${sendGridAPIKey}`,
+          "Content-Type": `application/json`,
+        },
+      });
+      console.log(response.data);
+      if (response.status === 202) {
+        return Response.json({ success: true });
+      } else {
+        return Response.json({ success: false });
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      console.log(err.response?.data);
       return Response.json({ success: false });
     }
-  } catch (error) {
-    const err = error as AxiosError;
-    console.log(err.response?.data);
+  } else {
+    console.log("Could not view environment variables");
     return Response.json({ success: false });
   }
 }
@@ -93,7 +103,6 @@ export default function IndexPage() {
   const fetcher = useFetcher<WaitlistFormActionResponse>();
   const formRef = useRef<HTMLFormElement>(null);
   const [shouldClose, setShouldClose] = useState<boolean>(false);
-  const [errors, setErrors] = useState<WaitlistFormErrors>();
 
   useEffect(() => {
     if (fetcher.data) {

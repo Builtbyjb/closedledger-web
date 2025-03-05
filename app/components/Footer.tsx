@@ -1,6 +1,10 @@
 import { Instagram, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
+  const handleCookie = () => {
+    console.log("cookie handled");
+  };
+
   return (
     <footer className="text-white py-8">
       <div className="font-poppins">
@@ -88,12 +92,15 @@ export default function Footer() {
                 <a href="#" className="hover:text-gray-300">
                   Terms of Service
                 </a>
-              </li>
+              </li> */}
               <li>
-                <a href="#" className="hover:text-gray-300">
+                <a
+                  onClick={handleCookie}
+                  className="hover:text-gray-300 hover:cursor-pointer"
+                >
                   Cookie Policy
                 </a>
-              </li> */}
+              </li>
             </ul>
           </div>
         </div>

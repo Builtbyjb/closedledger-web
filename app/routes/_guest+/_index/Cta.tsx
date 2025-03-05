@@ -6,7 +6,6 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { X } from "lucide-react";
 import { WaitlistFormActionResponse } from "~/lib/types";
-import Client from "@sendgrid/client";
 
 type Props = {
   formRef: React.RefObject<HTMLFormElement>;

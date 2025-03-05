@@ -4,9 +4,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import "./tailwind.css";
+import CookieConsentBanner from "./components/CookieConsent";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -46,7 +48,19 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export async function loader() {
+  return Response.json({
+    ENV: {
+      SERVER_URL: process.env.SERVER_URL,
+      SENDGRID_URL: process.env.SENDGRID_URL,
+      SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+      SENDGRID_LIST_ID: process.env.SENDGRID_LIST_ID,
+    },
+  });
+}
+
 export default function App() {
+  const data = useLoaderData<typeof loader>();
   return (
     <html lang="en">
       <head>
@@ -57,6 +71,13 @@ export default function App() {
       </head>
       <body className="bg-primary">
         <Outlet />
+        {/* <CookieConsentBanner /> */}
+        {/* Send env variables to the server */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
         <ScrollRestoration />
         <Scripts />
       </body>
