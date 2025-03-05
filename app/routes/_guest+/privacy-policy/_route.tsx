@@ -113,7 +113,7 @@ export default function PrivacyPolicy() {
           value="communication-preferences"
           className="border rounded-lg px-6"
         >
-          <AccordionTrigger className="text-lg font-medium py-4">
+          <AccordionTrigger className="font-medium py-4">
             Communications & email preferences
           </AccordionTrigger>
           <AccordionContent className="pb-4 pt-2 text-muted-foreground space-y-4">
@@ -167,7 +167,7 @@ export default function PrivacyPolicy() {
         </AccordionItem> */}
 
         <AccordionItem value="cookies" className="border rounded-lg px-6">
-          <AccordionTrigger className="text-lg font-medium py-4">
+          <AccordionTrigger className="font-medium py-4">
             Tracking & cookies data
           </AccordionTrigger>
           <AccordionContent className="pb-4 pt-2 text-muted-foreground space-y-4">
@@ -325,7 +325,7 @@ export default function PrivacyPolicy() {
         </AccordionItem> */}
 
         <AccordionItem value="contact" className="border rounded-lg px-6">
-          <AccordionTrigger className="text-lg font-medium py-4">
+          <AccordionTrigger className="font-medium py-4">
             Contact us
           </AccordionTrigger>
           <AccordionContent className="pb-4 pt-2 text-muted-foreground space-y-4">

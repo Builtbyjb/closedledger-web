@@ -122,7 +122,7 @@ export default function IndexPage() {
     <div>
       {/* Hero Section */}
       <section className="pb-2 mb-24 text-center">
-        <h1 className="text-white text-5xl md:text-5xl lg:text-5xl font-bold mb-4 leading-[1.3]">
+        <h1 className="text-white text-5xl md:text-5xl lg:text-5xl font-bold mb-4 leading-[1.2]">
           Keep track of your business's financial health.
         </h1>
         <p className="text-white mb-8">
