@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="text-white py-8">
       <div className="font-poppins">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* <div>
               <span className="text-2xl font-outfit">ClosedLedger</span>
             </div> */}
@@ -34,7 +34,7 @@ export default function Footer() {
               <li>
                 <a href="#" className="flex hover:text-gray-300">
                   <Mail className="me-2" />
-                  Email
+                  support@thinkledger.app
                 </a>
               </li>
               {/* <li>
@@ -42,7 +42,7 @@ export default function Footer() {
                     X
                   </a>
                 </li> */}
-              <li>
+              {/* <li>
                 <a href="#" className="flex hover:text-gray-300">
                   <Instagram className="me-2" />
                   Instagram
@@ -53,7 +53,7 @@ export default function Footer() {
                   <Linkedin className="me-2" />
                   LinkedIn
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
           {/* <div>
