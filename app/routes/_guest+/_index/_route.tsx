@@ -9,7 +9,7 @@ import * as z from "zod";
 import { AxiosError } from "axios";
 import api from "~/lib/api";
 import type { ActionFunctionArgs } from "@remix-run/node";
-import { WaitlistFormActionResponse } from "~/lib/types";
+import { WaitlistFormActionResponse, WaitlistFormErrors } from "~/lib/types";
 // import Testimonials from "./Testimonials";
 // import Pricing from "~/components/Pricing";
 
@@ -49,6 +49,15 @@ export async function action({
 }: ActionFunctionArgs): Promise<WaitlistFormActionResponse | undefined> {
   const formData = await request.formData();
 
+  const { errors } = await validateData<ActionInput>({
+    formData,
+    formSchema,
+  });
+
+  if (errors !== null) {
+    return Response.json({ errors: errors });
+  }
+
   const data = {
     list_ids: [sendGridListID],
     contacts: [
@@ -59,10 +68,6 @@ export async function action({
       },
     ],
   };
-
-  console.log(sendGridURL);
-
-  // console.log(data);
 
   try {
     const response = await api.put(sendGridURL, data, {
@@ -88,17 +93,17 @@ export default function IndexPage() {
   const fetcher = useFetcher<WaitlistFormActionResponse>();
   const formRef = useRef<HTMLFormElement>(null);
   const [shouldClose, setShouldClose] = useState<boolean>(false);
+  const [errors, setErrors] = useState<WaitlistFormErrors>();
 
   useEffect(() => {
     if (fetcher.data) {
       if (fetcher.data.success === true) {
         setShouldClose(true);
-      } else {
+      } else if (fetcher.data.success === false) {
         alert(
           "Something went wrong while adding you to the waitlist. Please try again."
         );
       }
-      console.log(fetcher.data);
     }
   }, [fetcher.data]);
 
@@ -108,14 +113,7 @@ export default function IndexPage() {
     event.preventDefault();
     if (formRef.current) {
       const formData = new FormData(formRef.current);
-      const { errors } = await validateData<ActionInput>({
-        formData,
-        formSchema,
-      });
-
-      if (errors === null) {
-        fetcher.submit(formData, { method: "PUT" });
-      }
+      fetcher.submit(formData, { method: "PUT" });
     }
   };
   return (
