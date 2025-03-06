@@ -22,7 +22,7 @@ const benefits = [
     strategies, and manage cash flow effectively.`,
 	},
 	{
-		title: "Ease of use",
+		title: "Easy to use",
 		icon: MousePointerClick,
 		description: `We use Google Workspace apps to seamlessly integrate with 
     your workflow. Our software delivers critical updates, lets you request 
