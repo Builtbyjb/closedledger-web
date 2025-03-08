@@ -9,6 +9,6 @@ COPY . .
 # work around npm optional dependencies bug
 RUN rm -rf package-lock.json
 
-RUN npm install --include=optional
+RUN npm install
 
 EXPOSE 5173
