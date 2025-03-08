@@ -1,14 +1,10 @@
 import { Instagram, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
-	const handleCookie = () => {
-		console.log("cookie handled");
-	};
-
 	return (
 		<footer className="text-white py-8">
-			<div className="font-poppins">
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+			<div className="font-poppins mt-8 pt-8 border-t border-gray-700">
+				<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
 					{/* <div>
               <span className="text-2xl font-outfit">ClosedLedger</span>
             </div> */}
@@ -37,11 +33,11 @@ export default function Footer() {
 						<ul className="space-y-2">
 							<li>
 								<a
-									href="#"
+									href="/support#contact"
 									className="flex hover:text-gray-300"
 								>
 									<Mail className="me-2" />
-									support@thinkledger.app
+									Email
 								</a>
 							</li>
 							{/* <li>
